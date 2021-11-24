@@ -15,4 +15,12 @@ jobs:
           cache: 'maven'
       - name: Build with SpringBoot
         run: mvn -DskipTests package
-      - run: ls -al ./target
+      - uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: 22
+          source: "target/demo.jar"
+          target: "/tmp/demo.jar"
+          overwrite: true
