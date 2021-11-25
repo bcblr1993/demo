@@ -1,0 +1,29 @@
+version: '3.8'
+
+# 在 proxy 网络中的容器可以被 反向代理服务 traefik 访问
+networks:
+  proxy:
+    external: true # 声明该网络为外部网络, 不需要 docker-compose 或 docker swarm 管理
+
+
+services:
+  demo:
+    image: ${DOCKER_IMAGE}
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /etc/timezone:/etc/timezone
+    networks:
+      - proxy # 使用已声明的网络
+    labels:
+      # 声明 traefik 反向代理的配置
+      # 模板:
+      # - "traefik.enable=true"
+      # - "traefik.http.routers.<服务名(自定, 不可重复)>.entrypoints=web, websecure"
+      # - "traefik.http.routers.<SERVICE>.rule=Host(`<多级域名>.dev.baizhiedu.cn`)"
+      # - "traefik.http.services.<SERVICE>.loadbalancer.server.port=<服务端口号>"
+      # region traefik 配置
+      - "traefik.enable=true"
+      - "traefik.http.routers.demo.entrypoints=web, websecure"
+      - "traefik.http.routers.demo.rule=Host(`demo.tx.chenyn.cn`)"
+      - "traefik.http.services.demo.loadbalancer.server.port=8080"
+      # endregion traefik 配置
