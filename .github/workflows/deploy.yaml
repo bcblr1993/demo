@@ -34,7 +34,7 @@ jobs:
           name: demo.jar
           path: target/
       - id: publish-docker
-        uses: elgohr/Publish-Docker-Github-Action@master
+        uses: elgohr/Publish-Docker-Github-Action@v5
         with:
           name: xiaochen2019/demo
           username: ${{ secrets.DOCKER_USERNAME }}
